@@ -22,6 +22,33 @@ def bubbleSort(ls):
 
 
 # Merge Sort
+def merge(ls, left, right):
+    # Set counters.
+    leftIndex = rightIndex = lsIndex = 0
+    
+    # Iterate sublists.
+    while leftIndex < len(left) and rightIndex < len(right):
+        # Lesser element to list, increment counter.
+        if left[leftIndex] <= right[rightIndex]:
+            ls[lsIndex] = left[leftIndex]
+            leftIndex += 1
+        else:
+            ls[lsIndex] = right[rightIndex]
+            rightIndex += 1
+        
+        lsIndex += 1 # always incremented
+    
+    # Dump leftovers to list.
+    while leftIndex < len(left):
+        ls[lsIndex] = left[leftIndex]
+        leftIndex += 1
+        lsIndex += 1
+    
+    while rightIndex < len(right):
+        ls[lsIndex] = right[rightIndex]
+        rightIndex += 1
+        lsIndex += 1
+
 def mergeSort(ls):
     # Recursive case: list > 1 element.
     if len(ls) > 1:
@@ -33,32 +60,42 @@ def mergeSort(ls):
         mergeSort(left)
         mergeSort(right)
         
-        # MERGE
-        # Set counters.
-        leftIndex = rightIndex = lsIndex = 0
+        # Merge sublists.
+        merge(ls, left, right)
+
+
+# Quick Sort
+# QUICK SORT CODE HERE
+
+
+# Hybrid Sort
+def hybridSort(ls, small, big, threshold):
+    # Determine small or big list.
+    if len(ls) < threshold:
+        # Sort by small-list algorithm.
+        if small == 1: # bubble
+            bubbleSort(ls)
         
-        # Iterate sublists.
-        while leftIndex < len(left) and rightIndex < len(right):
-            # Lesser element to list, increment counter.
-            if left[leftIndex] <= right[rightIndex]:
-                ls[lsIndex] = left[leftIndex]
-                leftIndex += 1
-            else:
-                ls[lsIndex] = right[rightIndex]
-                rightIndex += 1
+        # No else case for this assignment, only bubble sort!
+    
+    else:
+        # Sort as big-list algorithm.
+        if big == 1: # merge
+            # Find midpoint, divide.
+            mid = len(ls) // 2
+            left, right = ls[:mid], ls[mid:]
             
-            lsIndex += 1 # always incremented
+            # Sort sublists.
+            hybridSort(left, small, big, threshold)
+            hybridSort(right, small, big, threshold)
+            
+            # Merge sublists.
+            merge(ls, left, right)
         
-        # Dump leftovers to list.
-        while leftIndex < len(left):
-            ls[lsIndex] = left[leftIndex]
-            leftIndex += 1
-            lsIndex += 1
+        elif big == 2: # quick
+            exit() # QUICK SORT PART GOES HERE
         
-        while rightIndex < len(right):
-            ls[lsIndex] = right[rightIndex]
-            rightIndex += 1
-            lsIndex += 1
+        # No else case for this assignment, only merge and quick sorts!
 
 
 
@@ -73,6 +110,10 @@ print(x)
 y = [1, 8, 2, 19, -30, 31, -32, 0, 5, 6, 4, 0]
 bubbleSort(y)
 print(y)
+
+z = [3, 9, 4, 5, 0, 1, -2, -3, -4, 5, 18, 800, 799, 10, 13, 12, 11]
+hybridSort(z, 1, 1, 4)
+print(z)
 
 
 
