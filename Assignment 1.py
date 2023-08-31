@@ -6,15 +6,15 @@
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 # Bubble Sort
-def bubbleSort(arr):
-    length = len(arr)
+def bubbleSort(ls):
+    length = len(ls)
 
     for numSorted in range(length):
         swapped = False
 
         for i in range(length - numSorted - 1):
-            if arr[i] > arr[i + 1]:
-                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+            if ls[i] > ls[i + 1]:
+                ls[i], ls[i + 1] = ls[i + 1], ls[i]
                 swapped = True
         
         if not swapped:
@@ -69,6 +69,10 @@ def mergeSort(ls):
 x = [4, 0, -1, 1, -99, 68, 60, 68, 2, 3, -98, 200, 111, 101, 3]
 mergeSort(x)
 print(x)
+
+y = [1, 8, 2, 19, -30, 31, -32, 0, 5, 6, 4, 0]
+bubbleSort(y)
+print(y)
 
 
 
