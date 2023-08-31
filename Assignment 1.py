@@ -22,6 +22,33 @@ def bubbleSort(ls):
 
 
 # Merge Sort
+def merge(ls, left, right):
+    # Set counters.
+    leftIndex = rightIndex = lsIndex = 0
+    
+    # Iterate sublists.
+    while leftIndex < len(left) and rightIndex < len(right):
+        # Lesser element to list, increment counter.
+        if left[leftIndex] <= right[rightIndex]:
+            ls[lsIndex] = left[leftIndex]
+            leftIndex += 1
+        else:
+            ls[lsIndex] = right[rightIndex]
+            rightIndex += 1
+        
+        lsIndex += 1 # always incremented
+    
+    # Dump leftovers to list.
+    while leftIndex < len(left):
+        ls[lsIndex] = left[leftIndex]
+        leftIndex += 1
+        lsIndex += 1
+    
+    while rightIndex < len(right):
+        ls[lsIndex] = right[rightIndex]
+        rightIndex += 1
+        lsIndex += 1
+
 def mergeSort(ls):
     # Recursive case: list > 1 element.
     if len(ls) > 1:
@@ -33,32 +60,8 @@ def mergeSort(ls):
         mergeSort(left)
         mergeSort(right)
         
-        # MERGE
-        # Set counters.
-        leftIndex = rightIndex = lsIndex = 0
-        
-        # Iterate sublists.
-        while leftIndex < len(left) and rightIndex < len(right):
-            # Lesser element to list, increment counter.
-            if left[leftIndex] <= right[rightIndex]:
-                ls[lsIndex] = left[leftIndex]
-                leftIndex += 1
-            else:
-                ls[lsIndex] = right[rightIndex]
-                rightIndex += 1
-            
-            lsIndex += 1 # always incremented
-        
-        # Dump leftovers to list.
-        while leftIndex < len(left):
-            ls[lsIndex] = left[leftIndex]
-            leftIndex += 1
-            lsIndex += 1
-        
-        while rightIndex < len(right):
-            ls[lsIndex] = right[rightIndex]
-            rightIndex += 1
-            lsIndex += 1
+        # Merge sublists.
+        merge(ls, left, right)
 
 
 # Quick Sort
@@ -86,32 +89,13 @@ def hybridSort(ls, small, big, threshold):
             hybridSort(left, small, big, threshold)
             hybridSort(right, small, big, threshold)
             
-            # MERGE
-            # Set counters.
-            leftIndex = rightIndex = lsIndex = 0
-            
-            # Iterate sublists.
-            while leftIndex < len(left) and rightIndex < len(right):
-                # Lesser element to list, increment counter.
-                if left[leftIndex] <= right[rightIndex]:
-                    ls[lsIndex] = left[leftIndex]
-                    leftIndex += 1
-                else:
-                    ls[lsIndex] = right[rightIndex]
-                    rightIndex += 1
-                
-                lsIndex += 1 # always incremented
-            
-            # Dump leftovers to list.
-            while leftIndex < len(left):
-                ls[lsIndex] = left[leftIndex]
-                leftIndex += 1
-                lsIndex += 1
-            
-            while rightIndex < len(right):
-                ls[lsIndex] = right[rightIndex]
-                rightIndex += 1
-                lsIndex += 1
+            # Merge sublists.
+            merge(ls, left, right)
+        
+        elif big == 2: # quick
+            exit() # QUICK SORT PART GOES HERE
+        
+        # No else case for this assignment, only merge and quick sorts!
 
 
 
