@@ -7,16 +7,22 @@
 # -----------------------------------------------------------------------------
 # Bubble Sort
 def bubbleSort(ls):
+    # Sets length
     length = len(ls)
 
+    # Iterates list
     for numSorted in range(length):
+        # Sets base case
         swapped = False
 
+        # Iterates through unsorted list
         for i in range(length - numSorted - 1):
+            # Swaps elements if elements are out of order
             if ls[i] > ls[i + 1]:
                 ls[i], ls[i + 1] = ls[i + 1], ls[i]
                 swapped = True
         
+        # If nothing was swapped then the list is sorted
         if not swapped:
             break
 
