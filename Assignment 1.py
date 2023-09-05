@@ -102,7 +102,6 @@ def quickSort(ls, low, high):
         quickSort(ls, pivot_index + 1, high)
 
 # Hybrid Sort
-stackTrack = []
 def hybridSort(ls, small, big, threshold):
     # Determine small or big list.
     if len(ls) < threshold:
