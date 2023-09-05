@@ -7,16 +7,22 @@
 # -----------------------------------------------------------------------------
 # Bubble Sort
 def bubbleSort(ls):
+    # Sets length
     length = len(ls)
 
+    # Iterates list
     for numSorted in range(length):
+        # Sets base case
         swapped = False
 
+        # Iterates through unsorted list
         for i in range(length - numSorted - 1):
+            # Swaps elements if elements are out of order
             if ls[i] > ls[i + 1]:
                 ls[i], ls[i + 1] = ls[i + 1], ls[i]
                 swapped = True
         
+        # If nothing was swapped then the list is sorted
         if not swapped:
             break
 
@@ -65,8 +71,35 @@ def mergeSort(ls):
 
 
 # Quick Sort
-# QUICK SORT CODE HERE
+def partition(ls, low, high):
+    # Use first element as pivot
+    pivot = ls[low]
+    left = low + 1
+    right = high
 
+    done = False
+    while not done:
+        # While left and right don't cross and element doesn't belong on this side
+        while left <= right and ls[left] <= pivot:
+            left = left + 1
+        while right >= left and ls[right] >= pivot:
+            right = right - 1
+        if right < left:
+            done = True
+        else:
+            ls[left], ls[right] = ls[right], ls[left]
+    # Swap pivot where elements less than pivot and more than pivot meet
+    ls[low], ls[right] = ls[right], ls[low]
+
+    # Return index
+    return right
+
+def quickSort(ls, low, high):
+    if low < high:
+        pivot_index = partition(ls, low, high)
+
+        quickSort(ls, low, pivot_index)
+        quickSort(ls, pivot_index + 1, high)
 
 # Hybrid Sort
 def hybridSort(ls, small, big, threshold):
@@ -103,6 +136,10 @@ def hybridSort(ls, small, big, threshold):
 # TESTING
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
+w = [8, -3, 12, -6, 17, 5, -10, 14, 9, -1, 19, 7, -4, 11, 2]
+quickSort(w, 0, 14)
+print(w)
+
 x = [4, 0, -1, 1, -99, 68, 60, 68, 2, 3, -98, 200, 111, 101, 3]
 mergeSort(x)
 print(x)
