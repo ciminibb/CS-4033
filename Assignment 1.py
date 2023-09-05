@@ -102,6 +102,7 @@ def quickSort(ls, low, high):
         quickSort(ls, pivot_index + 1, high)
 
 # Hybrid Sort
+stackTrack = []
 def hybridSort(ls, small, big, threshold):
     # Determine small or big list.
     if len(ls) < threshold:
@@ -126,8 +127,17 @@ def hybridSort(ls, small, big, threshold):
             merge(ls, left, right)
         
         elif big == 2: # quick
-            exit() # QUICK SORT PART GOES HERE
-        
+            low, high = 0, len(ls) - 1
+            if low < high:
+                pivot_index = partition(ls, low, high)
+
+                left, right = ls[:pivot_index + 1], ls[pivot_index + 1:]
+
+                hybridSort(left, small, big, threshold)
+                hybridSort(right, small, big, threshold)
+
+                ls[:] = left + right
+
         # No else case for this assignment, only merge and quick sorts!
 
 
@@ -151,6 +161,11 @@ print(y)
 z = [3, 9, 4, 5, 0, 1, -2, -3, -4, 5, 18, 800, 799, 10, 13, 12, 11]
 hybridSort(z, 1, 1, 4)
 print(z)
+
+z2 = [5, -12, 8, 0, -3, 17, -9, 25, -6, 10, -15, 7, -1, 4, -20]
+# z2 = [4, 0, -1, 1, -99, 68, 60, 68, 2, 3, -98, 200, 111, 101, 3]
+hybridSort(z2, 1, 2, 4)
+print(z2)
 
 
 
