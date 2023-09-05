@@ -71,35 +71,74 @@ def mergeSort(ls):
 
 
 # Quick Sort
-def partition(ls, low, high):
-    # Use first element as pivot
-    pivot = ls[low]
-    left = low + 1
-    right = high
+# def partition(arr, first, last, start, mid):
+     
+#     pivot = arr[last]
+#     end = last
+     
+#     # Iterate while mid is not greater than end.
+#     while (mid[0] <= end):
+         
+#         # Inter Change position of element at the starting if it's value is less than pivot.
+#         if (arr[mid[0]] < pivot):
+             
+#             arr[mid[0]], arr[start[0]] = arr[start[0]], arr[mid[0]]
+             
+#             mid[0] = mid[0] + 1
+#             start[0] = start[0] + 1
+             
+#         # Inter Change position of element at the end if it's value is greater than pivot.
+#         elif (arr[mid[0]] > pivot):
+             
+#             arr[mid[0]], arr[end] = arr[end], arr[mid[0]]
+             
+#             end = end - 1
+             
+#         else:
+#             mid[0] = mid[0] + 1
+ 
+# # Function to sort the array elements in 3 cases
+# def quicksort(arr,first,last):
+#     # First case when an array contain only 1 element
+#     if (first >= last):
+#         return
+     
+#     # Second case when an array contain only 2 elements
+#     if (last == first + 1):
+         
+#         if (arr[first] > arr[last]):
+             
+#             arr[first], arr[last] = arr[last], arr[first]
+             
+#             return
+ 
+#     # Third case when an array contain more than 2 elements
+#     start = [first]
+#     mid = [first]
+ 
+#     # Function to partition the array.
+#     partition(arr, first, last, start, mid)
+     
+#     # Recursively sort sublist containing elements that are less than the pivot.
+#     quicksort(arr, first, start[0] - 1)
+ 
+#     # Recursively sort sublist containing elements that are more than the pivot
+#     quicksort(arr, mid[0], last)
 
-    done = False
-    while not done:
-        # While left and right don't cross and element doesn't belong on this side
-        while left <= right and ls[left] <= pivot:
-            left = left + 1
-        while right >= left and ls[right] >= pivot:
-            right = right - 1
-        if right < left:
-            done = True
-        else:
-            ls[left], ls[right] = ls[right], ls[left]
-    # Swap pivot where elements less than pivot and more than pivot meet
-    ls[low], ls[right] = ls[right], ls[low]
+def quickSort(arr):
+    if len(arr) <= 1:
+        return
 
-    # Return index
-    return right
+    pivot = arr[len(arr) // 2]
+    less_than_pivot = [x for x in arr if x < pivot]
+    equal_to_pivot = [x for x in arr if x == pivot]
+    greater_than_pivot = [x for x in arr if x > pivot]
 
-def quickSort(ls, low, high):
-    if low < high:
-        pivot_index = partition(ls, low, high)
+    quickSort(less_than_pivot)
+    quickSort(greater_than_pivot)
 
-        quickSort(ls, low, pivot_index)
-        quickSort(ls, pivot_index + 1, high)
+    arr.clear()
+    arr.extend(less_than_pivot + equal_to_pivot + greater_than_pivot)
 
 # Hybrid Sort
 def hybridSort(ls, small, big, threshold):
@@ -126,16 +165,19 @@ def hybridSort(ls, small, big, threshold):
             merge(ls, left, right)
         
         elif big == 2: # quick
-            low, high = 0, len(ls) - 1
-            if low < high:
-                pivot_index = partition(ls, low, high)
+            if len(ls) <= 1:
+                return
 
-                left, right = ls[:pivot_index + 1], ls[pivot_index + 1:]
+            pivot = ls[len(ls) // 2]
+            less_than_pivot = [x for x in ls if x < pivot]
+            equal_to_pivot = [x for x in ls if x == pivot]
+            greater_than_pivot = [x for x in ls if x > pivot]
 
-                hybridSort(left, small, big, threshold)
-                hybridSort(right, small, big, threshold)
-
-                ls[:] = left + right
+            hybridSort(less_than_pivot, small, big, threshold)
+            hybridSort(greater_than_pivot, small, big, threshold)
+            
+            ls.clear()
+            ls.extend(less_than_pivot + equal_to_pivot + greater_than_pivot)
 
         # No else case for this assignment, only merge and quick sorts!
 
@@ -145,8 +187,8 @@ def hybridSort(ls, small, big, threshold):
 # TESTING
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
-w = [8, -3, 12, -6, 17, 5, -10, 14, 9, -1, 19, 7, -4, 11, 2]
-quickSort(w, 0, 14)
+w = [8, -3, 12, -6, 17, 5, -10, 14, 9, -1, 19, 4, 8, -3, 12, -6, 17, 5, -10, 14, 9, -1, 19, 4]
+quickSort(w)
 print(w)
 
 x = [4, 0, -1, 1, -99, 68, 60, 68, 2, 3, -98, 200, 111, 101, 3]
@@ -162,7 +204,6 @@ hybridSort(z, 1, 1, 4)
 print(z)
 
 z2 = [5, -12, 8, 0, -3, 17, -9, 25, -6, 10, -15, 7, -1, 4, -20]
-# z2 = [4, 0, -1, 1, -99, 68, 60, 68, 2, 3, -98, 200, 111, 101, 3]
 hybridSort(z2, 1, 2, 4)
 print(z2)
 
