@@ -75,35 +75,20 @@ def mergeSort(ls):
 
 
 # Quick Sort
-def partition(ls, low, high):
-    # Use first element as pivot
-    pivot = ls[low]
-    left = low + 1
-    right = high
+def quickSort(arr):
+    if len(arr) <= 1:
+        return
 
-    done = False
-    while not done:
-        # While left and right don't cross and element doesn't belong on this side
-        while left <= right and ls[left] <= pivot:
-            left = left + 1
-        while right >= left and ls[right] >= pivot:
-            right = right - 1
-        if right < left:
-            done = True
-        else:
-            ls[left], ls[right] = ls[right], ls[left]
-    # Swap pivot where elements less than pivot and more than pivot meet
-    ls[low], ls[right] = ls[right], ls[low]
+    pivot = arr[len(arr) // 2]
+    less_than_pivot = [x for x in arr if x < pivot]
+    equal_to_pivot = [x for x in arr if x == pivot]
+    greater_than_pivot = [x for x in arr if x > pivot]
 
-    # Return index
-    return right
+    quickSort(less_than_pivot)
+    quickSort(greater_than_pivot)
 
-def quickSort(ls, low, high):
-    if low < high:
-        pivot_index = partition(ls, low, high)
-
-        quickSort(ls, low, pivot_index)
-        quickSort(ls, pivot_index + 1, high)
+    arr.clear()
+    arr.extend(less_than_pivot + equal_to_pivot + greater_than_pivot)
 
 # Hybrid Sort
 def hybridSort(ls, small, big, threshold):
@@ -223,27 +208,27 @@ def test_mergeSort():
 def test_quickSort():
     # Test case 1: Sorting an empty list should return an empty list.
     input_list = []
-    quickSort(input_list, 0, len(input_list) - 1)
+    quickSort(input_list)
     assert input_list == []
 
     # Test case 2: Sorting a list with a single element should return the same list.
     input_list = [42]
-    quickSort(input_list, 0, len(input_list) - 1)
+    quickSort(input_list)
     assert input_list == [42]
 
     # Test case 3: Sorting a list with multiple elements in ascending order.
     input_list = [5, 10, 15, 20, 25]
-    quickSort(input_list, 0, len(input_list) - 1)
+    quickSort(input_list)
     assert input_list == [5, 10, 15, 20, 25]
 
     # Test case 4: Sorting a list with multiple elements in descending order.
     input_list = [30, 20, 10, 5, 0]
-    quickSort(input_list, 0, len(input_list) - 1)
+    quickSort(input_list)
     assert input_list == [0, 5, 10, 20, 30]
 
     # Test case 5: Sorting a list with multiple elements in random order.
     input_list = [15, 30, 5, 10, 25]
-    quickSort(input_list, 0, len(input_list) - 1)
+    quickSort(input_list)
     assert input_list == [5, 10, 15, 25, 30]
 
     # TEST CASE FAILING
@@ -254,7 +239,7 @@ def test_quickSort():
 
     # Test case 7: Sorting a large list.
     input_list = [i for i in range(1000, 0, -1)]
-    quickSort(input_list, 0, len(input_list) - 1)
+    quickSort(input_list)
     assert input_list == [i for i in range(1, 1001)]
     
 def test_hybridSort():
@@ -309,33 +294,36 @@ if __name__ == "__main__":
     print("Bubble Sort tests passed!")
     test_mergeSort()
     print("Merge Sort tests passed!")
-    #test_quickSort()
+    test_quickSort()
     print("Quick Sort tests passed!")
     #test_hybridSort()
     print("Hybrid Sort tests passed!")
     # Test sorting algorithms with different list sizes
-    list_sizes = [100, 1000, 10000, 100000, 1000000]
+    list_sizes = [100, 1000, 10000]
 
     for size in list_sizes:
         input_list = generate_random_list(size)
         
-        # Bubble Sort
-        bubble_sort_time = measure_sorting_time(bubbleSort, input_list.copy())
+        if size <= 1000:
+            # Bubble Sort
+            bubble_sort_time = measure_sorting_time(bubbleSort, input_list.copy())
+        else: 
+            bubble_sort_time = None
         
         # Merge Sort
         merge_sort_time = measure_sorting_time(mergeSort, input_list.copy())
         
         # Quick Sort
-        #quick_sort_time = measure_sorting_time(lambda lst: quickSort(lst, 0, len(lst) - 1), input_list.copy())
+        quick_sort_time = measure_sorting_time(quickSort , input_list.copy())
         
         # Hybrid Sort (using Bubble Sort for small lists and Merge Sort for large lists)
-        #hybrid_sort_time = measure_sorting_time(lambda lst: hybridSort(lst, small=1, big=1, threshold=100), input_list.copy())
+        hybrid_sort_time = measure_sorting_time(lambda lst: hybridSort(lst, small=1, big=1, threshold=100), input_list.copy())
         
         print(f"List size: {size}")
         print(f"Bubble Sort time: {bubble_sort_time} seconds")
         print(f"Merge Sort time: {merge_sort_time} seconds")
-        #print(f"Quick Sort time: {quick_sort_time} seconds")
-        #print(f"Hybrid Sort time: {hybrid_sort_time} seconds")
+        print(f"Quick Sort time: {quick_sort_time} seconds")
+        print(f"Hybrid Sort time: {hybrid_sort_time} seconds")
         print("-" * 50)
     
 # QUESTIONS
