@@ -115,22 +115,31 @@ def hybridSort(ls, small, big, threshold):
             merge(ls, left, right)
         
         elif big == 2: # quick
-            low, high = 0, len(ls) - 1
-            if low < high:
-                pivot_index = partition(ls, low, high)
+            if len(ls) <= 1:
+                return
 
-                left, right = ls[:pivot_index + 1], ls[pivot_index + 1:]
+            pivot = ls[len(ls) // 2]
+            less_than_pivot = [x for x in ls if x < pivot]
+            equal_to_pivot = [x for x in ls if x == pivot]
+            greater_than_pivot = [x for x in ls if x > pivot]
 
-                hybridSort(left, small, big, threshold)
-                hybridSort(right, small, big, threshold)
-
-                ls[:] = left + right
+            hybridSort(less_than_pivot, small, big, threshold)
+            hybridSort(greater_than_pivot, small, big, threshold)
+            
+            ls.clear()
+            ls.extend(less_than_pivot + equal_to_pivot + greater_than_pivot)
 
         # No else case for this assignment, only merge and quick sorts!
 
 # TESTING
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+w = [8, -3, 12, -6, 17, 5, -10, 14, 9, -1, 19, 4, 8, -3, 12, -6, 17, 5, -10, 14, 9, -1, 19, 4]
+quickSort(w)
+print(w)
+>>>>>>> main
 
 def test_bubbleSort():
     # Test case 1: Sorting an empty list should return an empty list.
@@ -148,10 +157,16 @@ def test_bubbleSort():
     bubbleSort(input_list)
     assert input_list == [5, 10, 15, 20, 25]
 
+<<<<<<< HEAD
     # Test case 4: Sorting a list with multiple elements in descending order.
     input_list = [30, 20, 10, 5, 0]
     bubbleSort(input_list)
     assert input_list == [0, 5, 10, 20, 30]
+=======
+z2 = [5, -12, 8, 0, -3, 17, -9, 25, -6, 10, -15, 7, -1, 4, -20]
+hybridSort(z2, 1, 2, 4)
+print(z2)
+>>>>>>> main
 
     # Test case 5: Sorting a list with multiple elements in random order.
     input_list = [15, 30, 5, 10, 25]
