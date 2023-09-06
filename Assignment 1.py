@@ -134,7 +134,7 @@ def hybridSort(ls, small, big, threshold):
 
 
 
-# TESTING
+# TESTING AND PERFORMANCE COMMENTS
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 # Pass/Fail Bubble Sort
@@ -314,7 +314,7 @@ if __name__ == "__main__":
     print("")
     
     # Run performance tests with different list sizes.
-    list_sizes = [100, 1000, 10000, 100000, 1000000]
+    list_sizes = [100, 1000, 10000]
 
     for size in list_sizes:
         input_list = generate_random_list(size)
@@ -342,6 +342,104 @@ if __name__ == "__main__":
         print(f"Hybrid Sort time with Merge: {hybridm_sort_time} seconds")
         print(f"Hybrid Sort time with Quick: {hybridq_sort_time} seconds")
         print("-" * 50)
+
+
+# Performance Comments
+"""
+Set 1
+--------------------------------------------------
+List size: 100
+Bubble Sort time: 0.0009980201721191406 seconds
+Merge Sort time: 0.0009970664978027344 seconds
+Quick Sort time: 0.0 seconds
+Hybrid Sort time with Merge: 0.0 seconds
+Hybrid Sort time with Quick: 0.000997304916381836 seconds
+--------------------------------------------------
+List size: 1000
+Bubble Sort time: 0.11332464218139648 seconds
+Merge Sort time: 0.003995656967163086 seconds
+Quick Sort time: 0.0029938220977783203 seconds
+Hybrid Sort time with Merge: 0.0069844722747802734 seconds
+Hybrid Sort time with Quick: 0.006974935531616211 seconds
+--------------------------------------------------
+List size: 10000
+Bubble Sort time: 12.056044816970825 seconds
+Merge Sort time: 0.05388998985290527 seconds
+Quick Sort time: 0.022930622100830078 seconds
+Hybrid Sort time with Merge: 0.10032939910888672 seconds
+Hybrid Sort time with Quick: 0.06534981727600098 seconds
+--------------------------------------------------
+
+Set 2
+--------------------------------------------------
+List size: 100
+Bubble Sort time: 0.0009965896606445312 seconds
+Merge Sort time: 0.0 seconds
+Quick Sort time: 0.0 seconds
+Hybrid Sort time with Merge: 0.0009970664978027344 seconds
+Hybrid Sort time with Quick: 0.0 seconds
+--------------------------------------------------
+List size: 1000
+Bubble Sort time: 0.11632204055786133 seconds
+Merge Sort time: 0.003985166549682617 seconds
+Quick Sort time: 0.0030317306518554688 seconds
+Hybrid Sort time with Merge: 0.006982564926147461 seconds
+Hybrid Sort time with Quick: 0.0069849491119384766 seconds
+--------------------------------------------------
+List size: 10000
+Bubble Sort time: 12.003134489059448 seconds
+Merge Sort time: 0.05447793006896973 seconds
+Quick Sort time: 0.02689361572265625 seconds
+Hybrid Sort time with Merge: 0.1022801399230957 seconds
+Hybrid Sort time with Quick: 0.06541848182678223 seconds
+--------------------------------------------------
+
+Set 3
+--------------------------------------------------
+List size: 100
+Bubble Sort time: 0.0019948482513427734 seconds
+Merge Sort time: 0.0 seconds
+Quick Sort time: 0.000997781753540039 seconds
+Hybrid Sort time with Merge: 0.0 seconds
+Hybrid Sort time with Quick: 0.0010182857513427734 seconds
+--------------------------------------------------
+List size: 1000
+Bubble Sort time: 0.11334538459777832 seconds
+Merge Sort time: 0.003979921340942383 seconds
+Quick Sort time: 0.002994060516357422 seconds
+Hybrid Sort time with Merge: 0.006946563720703125 seconds
+Hybrid Sort time with Quick: 0.008016824722290039 seconds
+--------------------------------------------------
+List size: 10000
+Bubble Sort time: 11.866494417190552 seconds
+Merge Sort time: 0.053893089294433594 seconds
+Quick Sort time: 0.021982192993164062 seconds
+Hybrid Sort time with Merge: 0.09934115409851074 seconds
+Hybrid Sort time with Quick: 0.061417341232299805 seconds
+--------------------------------------------------
+
+Comparison
+--------------------------------------------------
+The following discussion is based on the test sets above. In each set, all
+algorithms were run on the same, randomly-generated lists. Let's begin with the
+obvious, the recursive algorithms were faster than bubble sort for all lists.
+Of course, the observed difference was negligible for small lists, but it
+increased exponentially with larger lists. A more interesting comparison is
+that of merge, quick, and hybrid sorts. Focusing on merge and quick, first, the
+results show the quick sort is more efficient. There are a few counterexamples,
+but only for small lists. The largest lists we tested were of size 10000, for
+which quick sort was approximately 0.0302 seconds and 55.78% faster on average.
+So, was that speed difference carried on through hybrid sort? For large lists,
+hybrid sort was fastest when quick sort was its recursive component. However,
+there was no significant difference for medium or small lists. Let's dig into
+that statement. Note, in this case, a "medium" list has 1000 elements and a
+"small" list has 100. For medium lists, the total aggregate difference was only
+0.00107 seconds (in favor of hybrid/merge, actually). That result was even more
+negligible for small lists. On large lists, though, hybrid/quick was 36.38%
+faster on average. Finally, it should be noted that either hybrid sort is
+slower than both merge and quick sorts by themselves. This was observed across
+all list sizes. It goes to show, when sorting lists, recursion is the way.
+"""
 
 
 
