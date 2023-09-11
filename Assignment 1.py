@@ -447,3 +447,36 @@ all list sizes. It goes to show, when sorting lists, recursion is the way.
 # QUESTIONS
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
+"""
+The task environment of sorting a list is as follows.
+P: correctness, efficiency
+E: memory
+A: comparison operations
+S: relative potision of elements
+
+Though bubble sort, merge sort, and quick sort have the same task environment,
+they interpret it in different ways. Those differences, where they exist, will
+be highlighted below.
+
+Bubble Sort
+--------------------------------------------------
+Bubble sort is a simple reflex agent. For any given comparison, the "world" of
+the algorithm contains only the pair of elements. With only that knowledge, it
+acts on a given condition (if left <= right).
+
+Merge Sort
+--------------------------------------------------
+Merge sort is a reflex agent with state. As the algorithm recurses, frames of
+its world are kept on a stack. In other words, it keeps track of how the world
+evolves. Not only that, it later uses that knowledge to merge the frames. That
+being said, merge sort does not look forward upon the impact of its actions. It
+only acts on the conditions it was given.
+
+Quick Sort
+--------------------------------------------------
+Quick sort is a reflex agent with state. The role of recursion in that statement
+is the same as for merge sort, see the above discussion. I'll add, though, that
+the algorithm has no goals or concept of utility. A programmer may want
+efficiency, but the algorithm itself isn't concerned with making itself any
+faster.
+"""
