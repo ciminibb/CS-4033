@@ -4,12 +4,12 @@
 
 
 
-# GRAPH DATA STRUCTURE
+# BASIC GRAPH DATA STRUCTURE
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# DISCLAIMER: The class <Graph> was implemented with the help of ChatGPT. I've
-# added thorough comments to demonstrate my learning. Additionally, you can find
-# a brief summary beneath it.
+# DISCLAIMER: Basic components of class <Graph> were implemented with the help
+# of ChatGPT. I've added thorough comments to demonstrate my learning.
+# Additionally, you can find a brief summary beneath this section.
 
 class Graph:
     def __init__(self):
@@ -167,6 +167,63 @@ class Graph:
 
 
 
+# SEARCH ALGORITHMS AND THEIR HELPER METHODS
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# DISCLAIMER: Some of the methods below were implemented with the help of
+# ChatGPT - and are marked as such. As before, those methods contain thorough
+# comments and a summary beneath them.
+
+    def BFS(self, start, goal):
+        """
+        This method performs a breadth-first search on the graph, from a start
+        vertex to a goal vertex.
+        
+        Parameters:
+        - start: The vertex where searching begins.
+        - goal: The vertex where searching concludes.
+        
+        Returns:
+        - visited: A list of vertices visited from start to goal.
+        - cost: The sum of edge weight between traversed vertices.
+        """
+        # Initialize two lists with the start vertex: <visited> and <queue>.
+        # <visited> will form our path; <queue> will hold vertices to maybe
+        # visit, pending evaluation.
+        visited = [start]
+        queue = [start]
+        
+        cost = 0 # Sum of <weight> from edges traversed.
+        
+        # Search while <queue> isn't empty. In other words, search while some
+        # reachable vertices from <current> haven't been evaluated.
+        while queue:
+            # Pop a vertex from the front of <queue> for evaluation.
+            current = queue.pop(0)
+            
+            # Evaluation entails checking the neighbors (adjacents) of a vertex.
+            # Unvisited neighbors are added to both lists, marking that they've
+            # been visited but require evaluation themselves.
+            for neighbor, weight in self.graph[current].items():
+                if neighbor not in visited: # Didn't use <get_neighbors()>
+                                            # because of the need for fully-
+                                            # represented edges.
+                    visited.append(neighbor)
+                    queue.append(neighbor)
+                    
+                    # Sum <weight>.
+                    cost += weight
+                    
+                    # Check if the goal vertex was visited. If so, return.
+                    if neighbor == goal:
+                        return (visited, weight)
+        
+        return ([], 0) # This line executing means the goal vertex was never
+                       # visited.
+
+
+
+
 # DRIVER
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -266,3 +323,16 @@ if __name__ == "__main__":
     # NONE
     
     print(g)
+    
+    
+    
+    
+# TESTING
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+    print("")
+    print("")
+
+    # BFS
+    BFS_result = g.BFS("Oradea", "Bucharest")
+    print(BFS_result)
