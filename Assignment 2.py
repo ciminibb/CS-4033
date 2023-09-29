@@ -193,6 +193,8 @@ class Graph:
         visited = [start]
         queue = [start]
         
+        cost = 0 # Sum of <weight> from edges traversed.
+        
         # Search while <queue> isn't empty. In other words, search while some
         # reachable vertices from <current> haven't been evaluated.
         while queue:
@@ -202,14 +204,19 @@ class Graph:
             # Evaluation entails checking the neighbors (adjacents) of a vertex.
             # Unvisited neighbors are added to both lists, marking that they've
             # been visited but require evaluation themselves.
-            for neighbor in self.get_neighbors(current):
-                if neighbor not in visited:
+            for neighbor, weight in self.graph[current].items():
+                if neighbor not in visited: # Didn't use <get_neighbors()>
+                                            # because of the need for fully-
+                                            # represented edges.
                     visited.append(neighbor)
                     queue.append(neighbor)
                     
+                    # Sum <weight>.
+                    cost += weight
+                    
                     # Check if the goal vertex was visited. If so, return.
                     if neighbor == goal:
-                        return visited
+                        return (visited, weight)
         
         return ([], 0) # This line executing means the goal vertex was never
                        # visited.
