@@ -12,6 +12,29 @@
 # Additionally, you can find a brief summary beneath this section.
 
 class Graph:
+    cityDictionary = {
+        "Arad": 366,
+        "Bucharest": 0,
+        "Craiova": 160,
+        "Drobeta": 242,
+        "Eforie": 161,
+        "Fagaras": 176,
+        "Giurgiu": 77,
+        "Hirsova": 151,
+        "Iasi": 226,
+        "Lugoj": 244,
+        "Mehadia": 241,
+        "Neamt": 234,
+        "Oradea": 380,
+        "Pitesti": 100,
+        "Rimnicu Vilcea": 193,
+        "Sibiu": 253,
+        "Timisoara": 329,
+        "Urziceni": 80,
+        "Vaslui": 199,
+        "Zerind": 374
+    }
+
     def __init__(self):
         """
         This constructor method initializes an empty graph.
@@ -249,7 +272,68 @@ class Graph:
                     cost += weight
                     if neighbor == goal:
                         return (visited, cost)
+
         return ([], 0)
+    
+    def AStar(self, start, goal):
+        # Create a list to store nodes to be expanded. 
+        # Each element in open_list is a tuple (city, estimated_cost)
+        open_list = [(start, 0)]
+        
+        # Create dictionaries to track the cost to reach each city 
+        # and its parent.
+        cost_to_reach = {start: 0}
+        parent = {start: None}
+        
+        while open_list:
+            # Sort the open list by estimated total cost. It accomplishes the 
+            # sort by checking the estimated_cost index of the tuple.
+            open_list.sort(key=lambda x: x[1])
+            
+            # Get the vertex with the lowest estimated total cost.
+            current, _ = open_list.pop(0) # This puts the city value
+                                        # in current and puts the 
+                                        # cost in a varaible that 
+                                        # won't be used `_`
+            
+            # If the current node is the goal, reconstruct the path and return it.
+            if current == goal:
+                path = [current]
+                # while you are not at the starting location
+                while parent[current]:
+                    # prepend the parent of the current node to the path 
+                    path.insert(0, parent[current])
+                    # move to the parent and repeat
+                    current = parent[current]
+                
+                # Calculate the total weight of the path. This sums the
+                # travel_cost of each move in the graph from the start node
+                # all the way to the goal node
+                total_weight = sum(self.graph[path[i]][path[i + 1]] for i in range(len(path) - 1))
+                
+                return (path, total_weight)
+            
+            # Explore neighbors of the current node.
+            for neighbor, weight in self.graph[current].items():
+                # Calculate the tentative cost to reach the neighbor.
+                tentative_cost = cost_to_reach[current] + weight
+                
+                # If the neighbor has not been visited or the new path is shorter,
+                # update the cost and set the parent.
+                if neighbor not in cost_to_reach or tentative_cost < cost_to_reach[neighbor]:
+                    cost_to_reach[neighbor] = tentative_cost
+                    parent[neighbor] = current
+                    
+                    # Calculate the estimated total cost (f(x) = g(x) + h(x)). with the values in
+                    # cityDictionary values as the heuristic.
+                    estimated_cost = tentative_cost + self.cityDictionary[neighbor]
+                    
+                    # Add the neighbor to the open list with its estimated cost.
+                    open_list.append((neighbor, estimated_cost))
+
+        # If the open list becomes empty and the goal is not reached, there is no path.
+        return ([], 0)
+        
 
 # DRIVER
 # ------------------------------------------------------------------------------
@@ -359,15 +443,22 @@ if __name__ == "__main__":
 
     # BFS
     BFS_result = g.BFS("Oradea", "Bucharest")
+
     print(f"BFS Result: {BFS_result}")
 
     # DFS
     DFS_result = g.DFS("Oradea", "Bucharest")
     print(f"DFS Result: {DFS_result}")
+    
 
     # A*
-    # A_result
-    # print(f"A* Result: {A_result}"")
+    AStar_result = g.AStar("Oradea", "Bucharest")
+    print(f"A* Result: {AStar_result}")
+    AStar_result = g.AStar("Timisoara", "Bucharest")
+    print(f"A* Result: {AStar_result}")
+    AStar_result = g.AStar("Neamt", "Bucharest")
+    print(f"A* Result: {AStar_result}")
+
 
 # EFFECIENCY COMPARISON
 # ------------------------------------------------------------------------------
@@ -386,6 +477,3 @@ if __name__ == "__main__":
         Cost:
 
 """
-
-
-    # print(f"A* Result: {A_result}"")
