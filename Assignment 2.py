@@ -61,7 +61,7 @@ class Graph:
                                     # dictionary will later contain edges.
 
 
-    def add_edge(self, vertex1, vertex2, weight):
+    def add_edge(self, vertex1, vertex2, weight=0):
         """
         This method adds an edge between two vertices with a given weight.
 
@@ -239,12 +239,42 @@ class Graph:
                     
                     # Check if the goal vertex was visited. If so, return.
                     if neighbor == goal:
-                        return (visited, weight)
+                        return (visited, cost)
         
         return ([], 0) # This line executing means the goal vertex was never
                        # visited.
 
+    def DFS(self, start, goal):
+        
+        # List of nodes we may visit
+        stack = [start]
 
+        # List of nodes that have already been visited
+        visited = [start]
+
+        # Initialize cost to 0. Will be used to track weight of visited nodes
+        cost = 0
+
+        # Perform search while the stack is not empty.
+        while stack:
+            # Set current node to last element in stack and remove from stack
+            current = stack.pop()
+
+            for neighbor, weight in self.graph[current].items():
+
+                # Check if node already visited. If not visited, we then place that node on the
+                # top of the stack and add it to our visited list, then we add the weight to our
+                # current cost value. If the node is our goal, we then return the list containing
+                # all visited nodes (including the goal) and the sum of all weights.
+                if neighbor not in visited:
+                    stack.append(neighbor)
+                    visited.append(neighbor)
+                    cost += weight
+                    if neighbor == goal:
+                        return (visited, cost)
+
+        return ([], 0)
+    
     def AStar(self, start, goal):
         # Create a list to store nodes to be expanded. 
         # Each element in open_list is a tuple (city, estimated_cost)
@@ -262,9 +292,9 @@ class Graph:
             
             # Get the vertex with the lowest estimated total cost.
             current, _ = open_list.pop(0) # This puts the city value
-                                          # in current and puts the 
-                                          # cost in a varaible that 
-                                          # won't be used `_`
+                                        # in current and puts the 
+                                        # cost in a varaible that 
+                                        # won't be used `_`
             
             # If the current node is the goal, reconstruct the path and return it.
             if current == goal:
@@ -300,9 +330,10 @@ class Graph:
                     
                     # Add the neighbor to the open list with its estimated cost.
                     open_list.append((neighbor, estimated_cost))
-        
+
         # If the open list becomes empty and the goal is not reached, there is no path.
         return ([], 0)
+        
 
 # DRIVER
 # ------------------------------------------------------------------------------
@@ -403,24 +434,46 @@ if __name__ == "__main__":
     # NONE
     
     print(g)
-    
-    
-    
-    
+
 # TESTING
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-    print("")
-    print("")
+    print("Output of BFS, DFS, and A* Algorithms")
+    print("-------------------------------------")
 
     # BFS
     BFS_result = g.BFS("Oradea", "Bucharest")
-    print(BFS_result)
 
-    # AStar
+    print(f"BFS Result: {BFS_result}")
+
+    # DFS
+    DFS_result = g.DFS("Oradea", "Bucharest")
+    print(f"DFS Result: {DFS_result}")
+    
+
+    # A*
     AStar_result = g.AStar("Oradea", "Bucharest")
-    print(AStar_result)
+    print(f"DFS Result: {AStar_result}")
     AStar_result = g.AStar("Timisoara", "Bucharest")
-    print(AStar_result)
+    print(f"DFS Result: {AStar_result}")
     AStar_result = g.AStar("Neamt", "Bucharest")
-    print(AStar_result)
+    print(f"DFS Result: {AStar_result}")
+
+
+# EFFECIENCY COMPARISON
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+"""
+    BFS:
+        Total Cities Visited: 8
+        Cost: 805
+
+    DFS:
+        Total Cities Visited: 9
+        Cost: 885
+
+    A*:
+        Total Cities Visited:
+        Cost:
+
+"""
