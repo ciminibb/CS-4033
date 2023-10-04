@@ -38,7 +38,7 @@ class Graph:
                                     # dictionary will later contain edges.
 
 
-    def add_edge(self, vertex1, vertex2, weight):
+    def add_edge(self, vertex1, vertex2, weight=0):
         """
         This method adds an edge between two vertices with a given weight.
 
@@ -216,13 +216,40 @@ class Graph:
                     
                     # Check if the goal vertex was visited. If so, return.
                     if neighbor == goal:
-                        return (visited, weight)
+                        return (visited, cost)
         
         return ([], 0) # This line executing means the goal vertex was never
                        # visited.
 
+    def DFS(self, start, goal):
+        
+        # List of nodes we may visit
+        stack = [start]
 
+        # List of nodes that have already been visited
+        visited = [start]
 
+        # Initialize cost to 0. Will be used to track weight of visited nodes
+        cost = 0
+
+        # Perform search while the stack is not empty.
+        while stack:
+            # Set current node to last element in stack and remove from stack
+            current = stack.pop()
+
+            for neighbor, weight in self.graph[current].items():
+
+                # Check if node already visited. If not visited, we then place that node on the
+                # top of the stack and add it to our visited list, then we add the weight to our
+                # current cost value. If the node is our goal, we then return the list containing
+                # all visited nodes (including the goal) and the sum of all weights.
+                if neighbor not in visited:
+                    stack.append(neighbor)
+                    visited.append(neighbor)
+                    cost += weight
+                    if neighbor == goal:
+                        return (visited, cost)
+        return ([], 0)
 
 # DRIVER
 # ------------------------------------------------------------------------------
@@ -323,16 +350,42 @@ if __name__ == "__main__":
     # NONE
     
     print(g)
-    
-    
-    
-    
+
 # TESTING
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-    print("")
-    print("")
+    print("Output of BFS, DFS, and A* Algorithms")
+    print("-------------------------------------")
 
     # BFS
     BFS_result = g.BFS("Oradea", "Bucharest")
-    print(BFS_result)
+    print(f"BFS Result: {BFS_result}")
+
+    # DFS
+    DFS_result = g.DFS("Oradea", "Bucharest")
+    print(f"DFS Result: {DFS_result}")
+
+    # A*
+    # A_result
+    # print(f"A* Result: {A_result}"")
+
+# EFFECIENCY COMPARISON
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+"""
+    BFS:
+        Total Cities Visited: 8
+        Cost: 805
+
+    DFS:
+        Total Cities Visited: 9
+        Cost: 885
+
+    A*:
+        Total Cities Visited:
+        Cost:
+
+"""
+
+
+    # print(f"A* Result: {A_result}"")
