@@ -246,28 +246,39 @@ class Graph:
 
 
     def AStar(self, start, goal):
-        # Create a list to store nodes to be expanded.
-        open_list = [(start, 0)]  # Each element is a tuple (vertex, estimated_cost).
+        # Create a list to store nodes to be expanded. 
+        # Each element in open_list is a tuple (city, estimated_cost)
+        open_list = [(start, 0)]
         
-        # Create dictionaries to track the cost to reach each node and its parent.
+        # Create dictionaries to track the cost to reach each city 
+        # and its parent.
         cost_to_reach = {start: 0}
         parent = {start: None}
         
         while open_list:
-            # Sort the open list by estimated total cost (f(x)).
+            # Sort the open list by estimated total cost. It accomplishes the 
+            # sort by checking the estimated_cost index of the tuple.
             open_list.sort(key=lambda x: x[1])
             
             # Get the vertex with the lowest estimated total cost.
-            current, _ = open_list.pop(0)
+            current, _ = open_list.pop(0) # This puts the city value
+                                          # in current and puts the 
+                                          # cost in a varaible that 
+                                          # won't be used `_`
             
             # If the current node is the goal, reconstruct the path and return it.
             if current == goal:
                 path = [current]
+                # while you are not at the starting location
                 while parent[current]:
+                    # prepend the parent of the current node to the path 
                     path.insert(0, parent[current])
+                    # move to the parent and repeat
                     current = parent[current]
                 
-                # Calculate the total weight of the path.
+                # Calculate the total weight of the path. This sums the
+                # travel_cost of each move in the graph from the start node
+                # all the way to the goal node
                 total_weight = sum(self.graph[path[i]][path[i + 1]] for i in range(len(path) - 1))
                 
                 return (path, total_weight)
@@ -283,7 +294,8 @@ class Graph:
                     cost_to_reach[neighbor] = tentative_cost
                     parent[neighbor] = current
                     
-                    # Calculate the estimated total cost (f(x)).
+                    # Calculate the estimated total cost (f(x) = g(x) + h(x)). with the values in
+                    # cityDictionary values as the heuristic.
                     estimated_cost = tentative_cost + self.cityDictionary[neighbor]
                     
                     # Add the neighbor to the open list with its estimated cost.
