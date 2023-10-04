@@ -453,11 +453,11 @@ if __name__ == "__main__":
 
     # A*
     AStar_result = g.AStar("Oradea", "Bucharest")
-    print(f"DFS Result: {AStar_result}")
+    print(f"A* Result: {AStar_result}")
     AStar_result = g.AStar("Timisoara", "Bucharest")
-    print(f"DFS Result: {AStar_result}")
+    print(f"A* Result: {AStar_result}")
     AStar_result = g.AStar("Neamt", "Bucharest")
-    print(f"DFS Result: {AStar_result}")
+    print(f"A* Result: {AStar_result}")
 
 
 # EFFECIENCY COMPARISON
