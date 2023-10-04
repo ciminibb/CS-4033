@@ -234,8 +234,8 @@ class Graph:
 
         # Perform search while the stack is not empty.
         while stack:
-            # Set current node to first element in stack and remove from stack
-            current = stack.pop(0)
+            # Set current node to last element in stack and remove from stack
+            current = stack.pop()
 
             for neighbor, weight in self.graph[current].items():
 
@@ -244,7 +244,7 @@ class Graph:
                 # current cost value. If the node is our goal, we then return the list containing
                 # all visited nodes (including the goal) and the sum of all weights.
                 if neighbor not in visited:
-                    stack.insert(0, neighbor)
+                    stack.append(neighbor)
                     visited.append(neighbor)
                     cost += weight
                     if neighbor == goal:
