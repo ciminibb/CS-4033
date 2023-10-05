@@ -495,13 +495,15 @@ BFS:
     Space Complexity: O(b^(d+1))
     Optimal: No because the edge weights are not uniform or decreasing.
     Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
-                 no path is found, the algorithm returns an empty list.
+                 no path is found, the algorithm returns an empty list. Not all cities that BFS visits are on the
+                 path it finds to the goal vertex. As a search algorithm with no heuristic, it "explores" the graph
+                 on its way to the goal. This is as intended, not an indicator of incorrectness.
     Efficiency: The efficiency of BFS is dependent upon the weight of the edges. In our example, the edge weights
                 are not uniform or decreasing, so BFS is not efficient. We visited 8 nodes in the Oradea -> Bucharest
                 example, 11 nodes in the Timisoara -> Bucharest example, and 5 nodes in the Neamt -> Bucharest example.
                 Our cost was 805 in the Oradea -> Bucharest example, 1050 in the Timisoara -> Bucharest example, and
-                406 in the Neamt -> Bucharest example. We can see from the cost and nodes visited that BFS did not provide us
-                with the most efficient path.
+                406 in the Neamt -> Bucharest example. We can see from the cost and nodes visited that the search undertaken
+                by BFS to find a path was not the most efficient.
 DFS:
     Oradea -> Bucharest: 885
     Timisoara -> Bucharest: 879
@@ -512,10 +514,14 @@ DFS:
     Space Complexity: O(bm)
     Optimal: No. DFS does not guarantee the shortest path.
     Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
-                 no path is found, the algorithm returns an empty list.
+                 no path is found, the algorithm returns an empty list. Like BFS, DFS must explore to find its
+                 goal, which is by design.
     Efficiency: The efficiency of DFS is dependent on the depth of our graph. Depending on the starting
                 city, DFS can be more efficient than BFS. We can see an example of this in the Timisoara -> Bucharest
-                example. DFS visited less nodes than BFS and our cost was lower.
+                example. DFS visited less nodes than BFS (9 versus 11) and its cost was lower (879 versus 1050). It's
+                worth noting that DFS not being used in shortest path algorithms doesn't mean it's strictly less
+                efficient than BFS. BFS can yield a shortest path, but that says nothing about the number of visits
+                needed to find it.
                 
 A*:
     Oradea -> Bucharest: 429
@@ -527,10 +533,11 @@ A*:
     Space Complexity: Keeps all nodes in memory
     Optimal: Yes
     Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
-                 no path is found, the algorithm returns an empty list.
+                 no path is found, the algorithm returns an empty list. Each path returned runs directly to Bucharest.
     Efficiency: A* is more efficient than BFS and DFS because it uses a heuristic to determine which node to visit next.
                 It determines the next node to visit by calculating the estimated total cost (f(x) = g(x) + h(x)), with the values in
                 cityDictionary values as the heuristic. With this approach, A* was able to provide us with the most efficient path
-                in each example.
+                in each example. BFS and DFS aren't concerned with total cost as they progress, but A* is. The results demonstrated
+                the benefits of its heuristic. In each path, it had the smallest cost (there was a tie in Neamt -> Bucharest). Also,
+                it never visited more than 6 cities, BFS visited 11 in its worst performance and DFS visited 9.
 """
-
