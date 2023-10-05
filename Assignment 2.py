@@ -438,42 +438,98 @@ if __name__ == "__main__":
 # TESTING
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-    print("Output of BFS, DFS, and A* Algorithms")
-    print("-------------------------------------")
+# DISCLAIMER: The following tests were implemented with the help of ChatGPT.
+
+print("Output of BFS, DFS, and A* Algorithms")
+print("-------------------------------------")
+
+# Define the source and destination pairs
+source_destination_pairs = [
+    ("Oradea", "Bucharest"),
+    ("Timisoara", "Bucharest"),
+    ("Neamt", "Bucharest")
+]
+
+# Perform BFS, DFS, and A* for each pair
+for source, destination in source_destination_pairs:
+    print(f"Source: {source}, Destination: {destination}")
+    print("")
 
     # BFS
-    BFS_result = g.BFS("Oradea", "Bucharest")
-
-    print(f"BFS Result: {BFS_result}")
+    BFS_result = g.BFS(source, destination)
+    if BFS_result:
+        print(f"BFS Result: {BFS_result}")
+    else:
+        print("BFS Result: No path found")
 
     # DFS
-    DFS_result = g.DFS("Oradea", "Bucharest")
-    print(f"DFS Result: {DFS_result}")
-    
+    DFS_result = g.DFS(source, destination)
+    if DFS_result:
+        print(f"DFS Result: {DFS_result}")
+    else:
+        print("DFS Result: No path found")
 
     # A*
-    AStar_result = g.AStar("Oradea", "Bucharest")
-    print(f"A* Result: {AStar_result}")
-    AStar_result = g.AStar("Timisoara", "Bucharest")
-    print(f"A* Result: {AStar_result}")
-    AStar_result = g.AStar("Neamt", "Bucharest")
-    print(f"A* Result: {AStar_result}")
+    AStar_result = g.AStar(source, destination)
+    if AStar_result:
+        print(f"A* Result: {AStar_result}")
+    else:
+        print("A* Result: No path found")
+
+    print("-------------------------------------")
+
+
 
 
 # EFFECIENCY COMPARISON
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 """
-    BFS:
-        Total Cities Visited: 8
-        Cost: 805
+BFS:
+    Oradea -> Bucharest: 805
+    Timisoara -> Bucharest: 1050
+    Neamt -> Bucharest: 406
 
-    DFS:
-        Total Cities Visited: 9
-        Cost: 885
+    Complete: Yes, b is finite in this example.
+    Time Complexity: O(b^(d+1))
+    Space Complexity: O(b^(d+1))
+    Optimal: No because the edge weights are not uniform or decreasing.
+    Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
+                 no path is found, the algorithm returns an empty list.
+    Efficiency: The efficiency of BFS is dependent upon the weight of the edges. In our example, the edge weights
+                are not uniform or decreasing, so BFS is not efficient. We visited 8 nodes in the Oradea -> Bucharest
+                example, 11 nodes in the Timisoara -> Bucharest example, and 5 nodes in the Neamt -> Bucharest example.
+                Our cost was 805 in the Oradea -> Bucharest example, 1050 in the Timisoara -> Bucharest example, and
+                406 in the Neamt -> Bucharest example. We can see from the results that the cost is not optimal and
+                the number of nodes visited is not optimal.
+DFS:
+    Oradea -> Bucharest: 885
+    Timisoara -> Bucharest: 879
+    Neamt -> Bucharest: 406
 
-    A*:
-        Total Cities Visited:
-        Cost:
+    Complete: Yes because we keep track of the visited nodes
+    Time Complexity: O(b^m)
+    Space Complexity: O(bm)
+    Optimal: No. DFS does not guarantee the shortest path.
+    Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
+                 no path is found, the algorithm returns an empty list.
+    Efficiency: The efficiency of DFS is dependent on the depth of our graph. In our example, the depth of our graph
+                
+
+
+A*:
+    Oradea -> Bucharest: 429
+    Timisoara -> Bucharest: 536
+    Neamt -> Bucharest: 406
+
+    Complete: Yes
+    Time Complexity: Exponential in [relative error in h * length of solution]
+    Space Complexity: Keeps all nodes in memory
+    Optimal: Yes
+    Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
+                 no path is found, the algorithm returns an empty list.
+    Efficiency: 
+
 
 """
+
