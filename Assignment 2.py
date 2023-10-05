@@ -500,8 +500,8 @@ BFS:
                 are not uniform or decreasing, so BFS is not efficient. We visited 8 nodes in the Oradea -> Bucharest
                 example, 11 nodes in the Timisoara -> Bucharest example, and 5 nodes in the Neamt -> Bucharest example.
                 Our cost was 805 in the Oradea -> Bucharest example, 1050 in the Timisoara -> Bucharest example, and
-                406 in the Neamt -> Bucharest example. We can see from the results that the cost is not optimal and
-                the number of nodes visited is not optimal.
+                406 in the Neamt -> Bucharest example. We can see from the cost and nodes visited that BFS did not provide us
+                with the most efficient path.
 DFS:
     Oradea -> Bucharest: 885
     Timisoara -> Bucharest: 879
@@ -513,10 +513,10 @@ DFS:
     Optimal: No. DFS does not guarantee the shortest path.
     Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
                  no path is found, the algorithm returns an empty list.
-    Efficiency: The efficiency of DFS is dependent on the depth of our graph. In our example, the depth of our graph
+    Efficiency: The efficiency of DFS is dependent on the depth of our graph. Depending on the starting
+                city, DFS can be more efficient than BFS. We can see an example of this in the Timisoara -> Bucharest
+                example. DFS visited less nodes than BFS and our cost was lower.
                 
-
-
 A*:
     Oradea -> Bucharest: 429
     Timisoara -> Bucharest: 536
@@ -528,8 +528,9 @@ A*:
     Optimal: Yes
     Correctness: The algorithm is correct because it does find a path from the start city to the goal city. If
                  no path is found, the algorithm returns an empty list.
-    Efficiency: 
-
-
+    Efficiency: A* is more efficient than BFS and DFS because it uses a heuristic to determine which node to visit next.
+                It determines the next node to visit by calculating the estimated total cost (f(x) = g(x) + h(x)), with the values in
+                cityDictionary values as the heuristic. With this approach, A* was able to provide us with the most efficient path
+                in each example.
 """
 
